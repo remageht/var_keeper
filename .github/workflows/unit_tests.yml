@@ -9,7 +9,9 @@ jobs:
   unit_testing:
     runs-on: self-hosted
     steps:
-      - name: Run Unit Tests
+       - name: Checkout
+        uses: actions/checkout@v4
+       - name: Run Unit Tests
         shell: bash
         run: |
           chmod +x ./test/unit-tests.sh
