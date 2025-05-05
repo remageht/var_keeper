@@ -1,0 +1,16 @@
+name: Unit Tests
+run-name: Run Unit Tests
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'dev'
+jobs:
+  unit_testing:
+    runs-on: self-hosted
+    steps:
+      - name: Run Unit Tests
+        shell: bash
+        run: |
+          chmod +x ./test/unit-tests.sh
+          ./test/unit-tests.sh
