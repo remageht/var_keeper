@@ -1,0 +1,30 @@
+name: Pull Request To Dev
+run-name: Run Integration Tests
+on:
+  pull_request:
+    branches:
+      - 'dev'
+jobs:
+  integration_testing:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create virtual env
+        run: python3 -m venv venv
+      - name: Install requirements
+        run: |
+          source venv/bin/activate
+          pip install -r requirements.txt
+      - name: Run app
+        run: |
+          source venv/bin/activate
+          nohup python src/app/app.py &
+          echo $! > app_pid
+      - name: Test GET-request
+        shell: bash
+        run: |
+          chmod +x ./test/integration-tests.sh
+          ./test/integration-tests.sh
+      - name: Stop app
+        run: kill -15 `cat app_pid`
